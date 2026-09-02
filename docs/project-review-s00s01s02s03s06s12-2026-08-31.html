@@ -1,0 +1,680 @@
+<title>Project Tracker — G2 Distribuidos 2026-B</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--ink:#1A2445;--ink-muted:#5A6A8A;--ink-faint:#9AAABF;--accent:#3A5AE8;--accent-dim:#6B87F0;--surface:#F4F6FB;--card:#FFFFFF;--border:#DDE3F0;--ground:#EEF1F8;--yes:#16A34A;--yes-bg:#DCFCE7;--yes-bd:#86EFAC;--warn:#B45309;--warn-bg:#FEF3C7;--warn-bd:#FCD34D;--no:#DC2626;--no-bg:#FEE2E2;--no-bd:#FCA5A5;--radius:10px;--shadow:0 1px 4px rgba(26,36,69,.08),0 4px 16px rgba(26,36,69,.06)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#E8EDF8;--ink-muted:#8A9BBC;--ink-faint:#4A5A78;--accent:#6B87F0;--accent-dim:#3A5AE8;--surface:#141C30;--card:#1C2640;--border:#2A3654;--ground:#0F1525;--yes:#4ADE80;--yes-bg:#052E16;--yes-bd:#166534;--warn:#FCD34D;--warn-bg:#1C1A00;--warn-bd:#854D0E;--no:#F87171;--no-bg:#1C0606;--no-bd:#991B1B;--shadow:0 1px 4px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.2)}}
+:root[data-theme="dark"]{--ink:#E8EDF8;--ink-muted:#8A9BBC;--ink-faint:#4A5A78;--accent:#6B87F0;--accent-dim:#3A5AE8;--surface:#141C30;--card:#1C2640;--border:#2A3654;--ground:#0F1525;--yes:#4ADE80;--yes-bg:#052E16;--yes-bd:#166534;--warn:#FCD34D;--warn-bg:#1C1A00;--warn-bd:#854D0E;--no:#F87171;--no-bg:#1C0606;--no-bd:#991B1B;--shadow:0 1px 4px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.2)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--ground);color:var(--ink);font-size:14px;line-height:1.55;min-height:100vh}
+.ph{background:#1A2445;color:#fff;padding:20px 28px 18px;display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;justify-content:space-between}
+.ph-left{display:flex;flex-direction:column;gap:4px}
+.ph-eye{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#6B87F0;opacity:.9}
+.ph-title{font-family:'Outfit',sans-serif;font-size:20px;font-weight:700}
+.ph-label{font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;color:rgba(255,255,255,.6)}
+.ph-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.mc{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:6px;padding:4px 10px;font-size:12px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.85);white-space:nowrap}
+.mc strong{color:#fff;font-weight:500}
+.sb{background:var(--card);border-bottom:1px solid var(--border);padding:10px 28px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sb-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin-right:4px}
+.sc{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:3px 8px;color:var(--accent)}
+.main{max-width:1100px;margin:0 auto;padding:24px 20px 48px;display:flex;flex-direction:column;gap:24px}
+.legend{display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:12px 20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius)}
+.leg-lbl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);margin-right:4px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink-muted)}
+.mcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.ch{padding:14px 20px;border-bottom:1px solid var(--border);font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-muted)}
+.mwrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);padding:10px 14px;text-align:left;background:var(--surface);border-bottom:1px solid var(--border);white-space:nowrap}
+th.c,td.c{text-align:center}
+td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface)}
+.tn{display:flex;flex-direction:column;gap:2px}
+.tnv{font-family:'Outfit',sans-serif;font-size:13px;font-weight:600}
+.trepo{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faint)}
+.sem{font-size:16px;line-height:1}
+.pc{display:flex;flex-direction:column;gap:4px;min-width:90px}
+.pb{background:var(--border);border-radius:100px;height:6px;overflow:hidden}
+.pf{height:100%;border-radius:100px}
+.pp{font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;color:var(--ink-muted)}
+.ts{display:flex;flex-direction:column;gap:16px}
+.sh{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);padding-left:2px}
+.tc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.tch{padding:14px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.ttb{flex:1;display:flex;flex-direction:column;gap:3px}
+.tcn{font-family:'Outfit',sans-serif;font-size:15px;font-weight:700}
+.tcr{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-faint)}
+.mems{display:flex;flex-wrap:wrap;gap:6px}
+.mtag{font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:2px 7px;color:var(--accent)}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;border-radius:5px;padding:3px 7px;border:1px solid;white-space:nowrap}
+.pill.g{background:var(--yes-bg);border-color:var(--yes-bd);color:var(--yes)}
+.pill.a{background:var(--warn-bg);border-color:var(--warn-bd);color:var(--warn)}
+.pill.r{background:var(--no-bg);border-color:var(--no-bd);color:var(--no)}
+.tcb{border-top:1px solid var(--border)}
+.sr{display:grid;grid-template-columns:90px 28px 1fr;gap:12px;align-items:start;padding:14px 20px;border-bottom:1px solid var(--border)}
+.sr:last-child{border-bottom:none}
+.sr:hover{background:var(--surface)}
+.scode{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:var(--ink-muted);padding-top:1px}
+.sico{font-size:15px;line-height:1.3}
+.sdet{display:flex;flex-direction:column;gap:6px}
+.stit{font-family:'Outfit',sans-serif;font-size:13px;font-weight:600}
+.cl{display:flex;flex-wrap:wrap;gap:5px}
+.ci{display:inline-flex;align-items:center;gap:4px;font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:2px 7px;color:var(--ink-muted)}
+.ci.d{color:var(--yes);background:var(--yes-bg);border-color:var(--yes-bd)}
+.ci.w{color:var(--warn);background:var(--warn-bg);border-color:var(--warn-bd)}
+.ci.m{color:var(--no);background:var(--no-bg);border-color:var(--no-bd)}
+.scom{font-size:12px;color:var(--ink-muted);font-style:italic;padding:6px 10px;background:var(--surface);border-left:3px solid var(--accent);border-radius:0 5px 5px 0;line-height:1.5}
+.pf2{text-align:center;padding:0 20px 12px;font-size:11px;color:var(--ink-muted);font-family:'JetBrains Mono',monospace}
+.alert{background:var(--warn-bg);border:1px solid var(--warn-bd);border-radius:var(--radius);padding:12px 18px;font-size:12px;color:var(--warn);line-height:1.6}
+</style>
+
+<header class="ph">
+  <div class="ph-left">
+    <span class="ph-eye">corhuila · project tracker v2 · evaluación crítica</span>
+    <h1 class="ph-title">Sistemas Distribuidos — G2 (team-2-2026-b)</h1>
+    <span class="ph-label">Corte 1 — Gobernanza, Contexto, Dominio, Producto, Datos y UX/UI</span>
+  </div>
+  <div class="ph-meta">
+    <span class="mc"><strong>Framework:</strong> microservices-governance-framework</span>
+    <span class="mc"><strong>Fecha:</strong> 2026-08-31</span>
+    <span class="mc"><strong>Equipos:</strong> 8</span>
+    <span class="mc"><strong>Rev:</strong> v2 · contenido verificado</span>
+  </div>
+</header>
+
+<div class="sb">
+  <span class="sb-label">Secciones evaluadas</span>
+  <span class="sc">00 · Governance</span>
+  <span class="sc">01 · Context</span>
+  <span class="sc">02 · Domain</span>
+  <span class="sc">03 · Product</span>
+  <span class="sc">06 · Data</span>
+  <span class="sc">12 · UX-UI</span>
+</div>
+
+<div class="main">
+<div class="alert">
+  <strong>Nota transversal G2:</strong> S12 (UX/UI) — design-system y navigation-map son plantilla sin adaptar en los 8 equipos (len=5939 y len=3302 = scaffold). Gap estructural del grupo completo para el siguiente corte.
+</div>
+
+<div class="legend">
+  <span class="leg-lbl">Semáforo</span>
+  <span class="leg-item">🟢 <span>Lleno — contenido real y específico al proyecto</span></span>
+  <span class="leg-item">🟡 <span>Parcial — mezcla de contenido propio y secciones en plantilla</span></span>
+  <span class="leg-item">🔴 <span>Vacío — plantilla del framework sin adaptar</span></span>
+</div>
+<div class="mcard"><div class="ch">Resumen — equipos × secciones (ordenado por avance real)</div><div class="mwrap"><table><thead><tr><th>Equipo</th>
+<th class="c">S00</th>
+<th class="c">S01</th>
+<th class="c">S02</th>
+<th class="c">S03</th>
+<th class="c">S06</th>
+<th class="c">S12</th>
+<th>Avance real</th></tr></thead><tbody>
+<tr><td><div class="tn"><span class="tnv">Salud Activa / Appt-Mgmt</span><span class="trepo">appt-mgmt-docs</span></div></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🟡</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td><div class="pc"><span class="pp">75%</span><div class="pb"><div class="pf" style="width:75%;background:var(--yes)"></div></div></div></td></tr>
+<tr><td><div class="tn"><span class="tnv">Travesia Natural</span><span class="trepo">travesia-natural-docs</span></div></td>
+<td class="c"><span class="sem">🟡</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td><div class="pc"><span class="pp">75%</span><div class="pb"><div class="pf" style="width:75%;background:var(--yes)"></div></div></div></td></tr>
+<tr><td><div class="tn"><span class="tnv">LMS Library</span><span class="trepo">library-docs</span></div></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🟡</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td><div class="pc"><span class="pp">58%</span><div class="pb"><div class="pf" style="width:58%;background:var(--warn)"></div></div></div></td></tr>
+<tr><td><div class="tn"><span class="tnv">Amaranta Shop</span><span class="trepo">amaranta-shop-docs</span></div></td>
+<td class="c"><span class="sem">🟡</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td><div class="pc"><span class="pp">58%</span><div class="pb"><div class="pf" style="width:58%;background:var(--warn)"></div></div></div></td></tr>
+<tr><td><div class="tn"><span class="tnv">Telemed-IA</span><span class="trepo">telemed-ia-docs</span></div></td>
+<td class="c"><span class="sem">🟡</span></td>
+<td class="c"><span class="sem">🟡</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🟡</span></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td><div class="pc"><span class="pp">58%</span><div class="pb"><div class="pf" style="width:58%;background:var(--warn)"></div></div></div></td></tr>
+<tr><td><div class="tn"><span class="tnv">Quorum One / Qampus</span><span class="trepo">qone-docs</span></div></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🟡</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td><div class="pc"><span class="pp">42%</span><div class="pb"><div class="pf" style="width:42%;background:var(--warn)"></div></div></div></td></tr>
+<tr><td><div class="tn"><span class="tnv">PMS Property</span><span class="trepo">property-docs</span></div></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td class="c"><span class="sem">🟡</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🟢</span></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td><div class="pc"><span class="pp">42%</span><div class="pb"><div class="pf" style="width:42%;background:var(--warn)"></div></div></div></td></tr>
+<tr><td><div class="tn"><span class="tnv">Barber SaaS</span><span class="trepo">barber-saas-docs</span></div></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td class="c"><span class="sem">🟡</span></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td class="c"><span class="sem">🔴</span></td>
+<td><div class="pc"><span class="pp">8%</span><div class="pb"><div class="pf" style="width:8%;background:var(--no)"></div></div></div></td></tr>
+</tbody></table></div></div>
+<div class="ts"><h2 class="sh">Detalle por equipo</h2>
+<div class="tc">
+<div class="tch">
+  <div class="ttb"><span class="tcn">Salud Activa / Appt-Mgmt</span><span class="tcr">code-corhuila / appt-mgmt-docs</span></div>
+  <div class="mems"><span class="mtag">@BrayanYara1</span></div>
+  <div class="pills"><span class="pill g">🟢 4 llenas</span><span class="pill a">🟡 1 parcial</span><span class="pill r">🔴 1 vacía</span></div>
+</div>
+<div class="tcb">
+<div class="sr">
+  <span class="scode">S00 · Governance</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Governance</span>
+    <div class="cl"><span class="ci d">✓ agile-conventions.md</span><span class="ci w">⚠ definition-of-done.md</span><span class="ci w">⚠ definition-of-ready.md</span><span class="ci w">⚠ documentation-rules.md</span><span class="ci d">✓ git-conventions.md</span><span class="ci d">✓ microservices-documentation.md</span><span class="ci d">✓ security-policy.md</span><span class="ci d">✓ security-rules.md</span></div>
+    <p class="scom">agile-conventions muy elaborado (6051 chars — casi el doble del template) con flujo de trabajo propio. Git, seguridad y microservice-docs personalizados. DoD/DoR presentes pero con checkboxes sin marcar.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S01 · Context</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Context</span>
+    <div class="cl"><span class="ci d">✓ overview.md</span><span class="ci d">✓ scope.md</span><span class="ci d">✓ glossary.md</span></div>
+    <p class="scom">Overview específico de 'Salud Activa' — plataforma médica, objetivos reales (reducir absentismo, empoderar profesionales). Scope e contexto bien documentados.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S02 · Domain</span>
+  <span class="sico">🟡</span>
+  <div class="sdet">
+    <span class="stit">Domain</span>
+    <div class="cl"><span class="ci w">⚠ domain-map.md</span><span class="ci w">⚠ domain-events.md</span><span class="ci d">✓ entities-and-rules.md</span></div>
+    <p class="scom">domain-map muy elaborado (15672 chars, 40 líneas reales) con bounded contexts propios, pero contiene 2 marcadores de plantilla sin reemplazar. Limpieza final pendiente.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S03 · Product</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Product</span>
+    <div class="cl"><span class="ci d">✓ vision.md</span><span class="ci d">✓ problem-framing.md</span></div>
+    <p class="scom">Vision (5832 chars) y problem-framing completados con contenido real específico del sistema de gestión de citas médicas.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S06 · Data</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Data</span>
+    <div class="cl"><span class="ci d">✓ models.md</span></div>
+    <p class="scom">models.md con esquemas por servicio reales ('GestionTurnosApp'), convenciones de auditoría (UUID, soft-delete), 86 líneas de contenido real. Menor que el template pero sustantivo.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S12 · UX-UI</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">UX-UI</span>
+    <div class="cl"><span class="ci m">✗ design-system.md</span><span class="ci m">✗ navigation-map.md</span></div>
+    <p class="scom">Ambos archivos son plantilla del framework sin adaptar. design-system con <code>#[hex]</code> y navigation-map con estructura vacía. UX/UI sin iniciar.</p>
+  </div>
+</div>
+</div></div>
+<div class="tc">
+<div class="tch">
+  <div class="ttb"><span class="tcn">Travesia Natural</span><span class="tcr">code-corhuila / travesia-natural-docs</span></div>
+  <div class="mems"><span class="mtag">@Molina211</span></div>
+  <div class="pills"><span class="pill g">🟢 4 llenas</span><span class="pill a">🟡 1 parcial</span><span class="pill r">🔴 1 vacía</span></div>
+</div>
+<div class="tcb">
+<div class="sr">
+  <span class="scode">S00 · Governance</span>
+  <span class="sico">🟡</span>
+  <div class="sdet">
+    <span class="stit">Governance</span>
+    <div class="cl"><span class="ci d">✓ agile-conventions.md</span><span class="ci w">⚠ definition-of-done.md</span><span class="ci w">⚠ definition-of-ready.md</span><span class="ci w">⚠ documentation-rules.md</span><span class="ci d">✓ git-conventions.md</span><span class="ci d">✓ microservices-documentation.md</span><span class="ci d">✓ security-policy.md</span><span class="ci d">✓ security-rules.md</span></div>
+    <p class="scom">agile-conventions personalizado (len=3564, tpl=0) con metodología propia. Git y seguridad adaptados. DoD/DoR con criterios del framework sin marcar ni adaptar al dominio turístico.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S01 · Context</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Context</span>
+    <div class="cl"><span class="ci d">✓ overview.md</span><span class="ci d">✓ scope.md</span><span class="ci d">✓ glossary.md</span></div>
+    <p class="scom">Overview describe la plataforma de turismo multitenant con roles específicos (Platform Admin, Tenant Admin, Colaborador, Cliente). Scope detallado con boundaries claros.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S02 · Domain</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Domain</span>
+    <div class="cl"><span class="ci d">✓ domain-map.md</span><span class="ci d">✓ domain-events.md</span><span class="ci d">✓ entities-and-rules.md</span></div>
+    <p class="scom">domain-map muy elaborado (16813 chars, sin marcadores template) con bounded contexts específicos del dominio turístico. Eventos de dominio y entidades bien modelados.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S03 · Product</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Product</span>
+    <div class="cl"><span class="ci d">✓ vision.md</span><span class="ci d">✓ problem-framing.md</span></div>
+    <p class="scom">Vision y problem-framing completados con contenido propio del sistema de operaciones turísticas.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S06 · Data</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Data</span>
+    <div class="cl"><span class="ci d">✓ models.md</span></div>
+    <p class="scom">models.md excepcional (19584 chars, 66 líneas reales) — el más detallado de G2. Esquemas por servicio con contenido específico del dominio turístico.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S12 · UX-UI</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">UX-UI</span>
+    <div class="cl"><span class="ci m">✗ design-system.md</span><span class="ci m">✗ navigation-map.md</span></div>
+    <p class="scom">Ambos archivos son plantilla sin adaptar. design-system con <code>#[hex]</code> sin definir y navigation-map vacío. El gap más visible del equipo.</p>
+  </div>
+</div>
+</div></div>
+<div class="tc">
+<div class="tch">
+  <div class="ttb"><span class="tcn">LMS Library</span><span class="tcr">code-corhuila / library-docs</span></div>
+  <div class="mems"><span class="mtag">@OscarAreiza</span></div>
+  <div class="pills"><span class="pill g">🟢 3 llenas</span><span class="pill a">🟡 1 parcial</span><span class="pill r">🔴 2 vacías</span></div>
+</div>
+<div class="tcb">
+<div class="sr">
+  <span class="scode">S00 · Governance</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">Governance</span>
+    <div class="cl"><span class="ci m">✗ agile-conventions.md</span><span class="ci m">✗ definition-of-done.md</span><span class="ci m">✗ definition-of-ready.md</span><span class="ci m">✗ documentation-rules.md</span><span class="ci m">✗ git-conventions.md</span><span class="ci m">✗ microservices-documentation.md</span><span class="ci m">✗ security-policy.md</span><span class="ci m">✗ security-rules.md</span></div>
+    <p class="scom">agile-conventions.md idéntico al template del framework (len=3242, 7 marcadores). Gobernanza sin adaptar — archivos estructuralmente presentes pero vacíos de contenido propio.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S01 · Context</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Context</span>
+    <div class="cl"><span class="ci d">✓ overview.md</span><span class="ci d">✓ scope.md</span><span class="ci d">✓ glossary.md</span></div>
+    <p class="scom">Context completo con overview (3484 chars, 9 líneas reales) y scope bien definido (6989 chars). Contenido específico del sistema de biblioteca.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S02 · Domain</span>
+  <span class="sico">🟡</span>
+  <div class="sdet">
+    <span class="stit">Domain</span>
+    <div class="cl"><span class="ci w">⚠ domain-map.md</span><span class="ci w">⚠ domain-events.md</span><span class="ci d">✓ entities-and-rules.md</span></div>
+    <p class="scom">domain-map elaborado (11235 chars, 37 líneas reales) con bounded contexts propios, pero 2 marcadores de plantilla residuales. Mixto.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S03 · Product</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Product</span>
+    <div class="cl"><span class="ci d">✓ vision.md</span><span class="ci d">✓ problem-framing.md</span></div>
+    <p class="scom">Vision y problem-framing completados con contenido real del sistema LMS de biblioteca.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S06 · Data</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Data</span>
+    <div class="cl"><span class="ci d">✓ models.md</span></div>
+    <p class="scom">models.md real (8781 chars, 78 líneas reales) — más grande que el template (7317) y sin marcadores. Esquemas por servicio específicos al dominio LMS.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S12 · UX-UI</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">UX-UI</span>
+    <div class="cl"><span class="ci m">✗ design-system.md</span><span class="ci m">✗ navigation-map.md</span></div>
+    <p class="scom">Plantillas sin adaptar. design-system con <code>#[hex]</code> y navigation-map vacío.</p>
+  </div>
+</div>
+</div></div>
+<div class="tc">
+<div class="tch">
+  <div class="ttb"><span class="tcn">Amaranta Shop</span><span class="tcr">code-corhuila / amaranta-shop-docs</span></div>
+  <div class="mems"><span class="mtag">@BrandowC</span></div>
+  <div class="pills"><span class="pill g">🟢 3 llenas</span><span class="pill a">🟡 1 parcial</span><span class="pill r">🔴 2 vacías</span></div>
+</div>
+<div class="tcb">
+<div class="sr">
+  <span class="scode">S00 · Governance</span>
+  <span class="sico">🟡</span>
+  <div class="sdet">
+    <span class="stit">Governance</span>
+    <div class="cl"><span class="ci d">✓ agile-conventions.md</span><span class="ci w">⚠ definition-of-done.md</span><span class="ci w">⚠ definition-of-ready.md</span><span class="ci w">⚠ documentation-rules.md</span><span class="ci d">✓ git-conventions.md</span><span class="ci d">✓ microservices-documentation.md</span><span class="ci d">✓ security-policy.md</span><span class="ci d">✓ security-rules.md</span></div>
+    <p class="scom">agile-conventions personalizado (tpl=0, len=3393). Git y seguridad adaptados. DoD/DoR con la estructura del framework pero checkboxes sin marcar.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S01 · Context</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Context</span>
+    <div class="cl"><span class="ci d">✓ overview.md</span><span class="ci d">✓ scope.md</span><span class="ci d">✓ glossary.md</span></div>
+    <p class="scom">Overview con descripción real del sistema de e-commerce (4453 chars). Scope completamente en formato tabla (6872 chars, cero líneas de prosa — todo en filas) — estructura real aunque inusual.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S02 · Domain</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Domain</span>
+    <div class="cl"><span class="ci d">✓ domain-map.md</span><span class="ci d">✓ domain-events.md</span><span class="ci d">✓ entities-and-rules.md</span></div>
+    <p class="scom">domain-map con bounded contexts propios (10902 chars, sin marcadores template). Dominio bien modelado para el e-commerce.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S03 · Product</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Product</span>
+    <div class="cl"><span class="ci d">✓ vision.md</span><span class="ci d">✓ problem-framing.md</span></div>
+    <p class="scom">Vision (4752 chars, 20 líneas reales) y problem-framing completados con contenido real.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S06 · Data</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">Data</span>
+    <div class="cl"><span class="ci m">✗ models.md</span></div>
+    <p class="scom">models.md confirmado como plantilla ('What to fill in here' intacto, len=7317 = scaffold). Sin esquemas de datos propios — el gap más crítico del equipo.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S12 · UX-UI</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">UX-UI</span>
+    <div class="cl"><span class="ci m">✗ design-system.md</span><span class="ci m">✗ navigation-map.md</span></div>
+    <p class="scom">Plantillas sin adaptar. design-system con <code>#[hex]</code> y navigation-map vacío.</p>
+  </div>
+</div>
+</div></div>
+<div class="tc">
+<div class="tch">
+  <div class="ttb"><span class="tcn">Telemed-IA</span><span class="tcr">code-corhuila / telemed-ia-docs</span></div>
+  <div class="mems"><span class="mtag">@BondrewdXD</span></div>
+  <div class="pills"><span class="pill g">🟢 2 llenas</span><span class="pill a">🟡 3 parciales</span><span class="pill r">🔴 1 vacía</span></div>
+</div>
+<div class="tcb">
+<div class="sr">
+  <span class="scode">S00 · Governance</span>
+  <span class="sico">🟡</span>
+  <div class="sdet">
+    <span class="stit">Governance</span>
+    <div class="cl"><span class="ci w">⚠ agile-conventions.md</span><span class="ci w">⚠ definition-of-done.md</span><span class="ci w">⚠ definition-of-ready.md</span><span class="ci w">⚠ documentation-rules.md</span><span class="ci d">✓ git-conventions.md</span><span class="ci d">✓ microservices-documentation.md</span><span class="ci d">✓ security-policy.md</span><span class="ci d">✓ security-rules.md</span></div>
+    <p class="scom">agile-conventions parcialmente llenado: 'Duration: 1 week', 'Sprint start: Monday' definidos, pero 'Sprint 1 — [start date]' y 'N story points' siguen siendo plantilla. Esfuerzo iniciado, sin completar.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S01 · Context</span>
+  <span class="sico">🟡</span>
+  <div class="sdet">
+    <span class="stit">Context</span>
+    <div class="cl"><span class="ci w">⚠ overview.md</span><span class="ci d">✓ scope.md</span><span class="ci d">✓ glossary.md</span></div>
+    <p class="scom">overview.md elaborado (5019 chars, 8 líneas reales) pero contiene un marcador de plantilla residual. Scope (7331 chars) y glosario completados correctamente.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S02 · Domain</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Domain</span>
+    <div class="cl"><span class="ci d">✓ domain-map.md</span><span class="ci d">✓ domain-events.md</span><span class="ci d">✓ entities-and-rules.md</span></div>
+    <p class="scom">domain-map excepcional (18729 chars, sin marcadores template) — el más detallado de G2. Bounded contexts del sistema de telemedicina con IA bien modelados.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S03 · Product</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Product</span>
+    <div class="cl"><span class="ci d">✓ vision.md</span><span class="ci d">✓ problem-framing.md</span></div>
+    <p class="scom">Vision elaborada (6658 chars) y problem-framing completados. Contenido específico del chatbot de telemedicina.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S06 · Data</span>
+  <span class="sico">🟡</span>
+  <div class="sdet">
+    <span class="stit">Data</span>
+    <div class="cl"><span class="ci w">⚠ models.md</span></div>
+    <p class="scom">models.md con 196 líneas reales y 25309 chars — contenido sustantivo y específico al proyecto. Sin embargo, mantiene el header 'What to fill in here' del template al inicio, lo que indica que el artefacto no fue limpiado. Contenido real, presentación incompleta.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S12 · UX-UI</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">UX-UI</span>
+    <div class="cl"><span class="ci m">✗ design-system.md</span><span class="ci m">✗ navigation-map.md</span></div>
+    <p class="scom">Plantillas sin adaptar. El gap más visible del equipo dada la fortaleza de sus otras secciones.</p>
+  </div>
+</div>
+</div></div>
+<div class="tc">
+<div class="tch">
+  <div class="ttb"><span class="tcn">Quorum One / Qampus</span><span class="tcr">code-corhuila / qone-docs</span></div>
+  <div class="mems"><span class="mtag">@DarksChoise</span></div>
+  <div class="pills"><span class="pill g">🟢 2 llenas</span><span class="pill a">🟡 1 parcial</span><span class="pill r">🔴 3 vacías</span></div>
+</div>
+<div class="tcb">
+<div class="sr">
+  <span class="scode">S00 · Governance</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">Governance</span>
+    <div class="cl"><span class="ci m">✗ agile-conventions.md</span><span class="ci m">✗ definition-of-done.md</span><span class="ci m">✗ definition-of-ready.md</span><span class="ci m">✗ documentation-rules.md</span><span class="ci m">✗ git-conventions.md</span><span class="ci m">✗ microservices-documentation.md</span><span class="ci m">✗ security-policy.md</span><span class="ci m">✗ security-rules.md</span></div>
+    <p class="scom">agile-conventions.md idéntico al template (len=3242, 7 marcadores). Gobernanza sin adaptar.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S01 · Context</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Context</span>
+    <div class="cl"><span class="ci d">✓ overview.md</span><span class="ci d">✓ scope.md</span><span class="ci d">✓ glossary.md</span></div>
+    <p class="scom">overview.md real ('Qampus' — plataforma universitaria de gestión académica, 3481 chars). Scope (7103 chars) y glosario completos.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S02 · Domain</span>
+  <span class="sico">🟡</span>
+  <div class="sdet">
+    <span class="stit">Domain</span>
+    <div class="cl"><span class="ci w">⚠ domain-map.md</span><span class="ci w">⚠ domain-events.md</span><span class="ci d">✓ entities-and-rules.md</span></div>
+    <p class="scom">domain-map elaborado (11342 chars, 36 líneas reales) pero con 2 marcadores residuales de plantilla. Bounded contexts presentes pero sin limpiar.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S03 · Product</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Product</span>
+    <div class="cl"><span class="ci d">✓ vision.md</span><span class="ci d">✓ problem-framing.md</span></div>
+    <p class="scom">Vision elaborada (5777 chars, 16 líneas reales) y problem-framing completados para el sistema académico.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S06 · Data</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">Data</span>
+    <div class="cl"><span class="ci m">✗ models.md</span></div>
+    <p class="scom">models.md es la plantilla del framework sin modificar (len=7317 = scaffold, marcadores confirmados). Sin modelo de datos propio.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S12 · UX-UI</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">UX-UI</span>
+    <div class="cl"><span class="ci m">✗ design-system.md</span><span class="ci m">✗ navigation-map.md</span></div>
+    <p class="scom">Plantillas sin adaptar. design-system con <code>#[hex]</code> y navigation-map vacío.</p>
+  </div>
+</div>
+</div></div>
+<div class="tc">
+<div class="tch">
+  <div class="ttb"><span class="tcn">PMS Property</span><span class="tcr">code-corhuila / property-docs</span></div>
+  <div class="mems"><span class="mtag">@JuanOliveros2497</span></div>
+  <div class="pills"><span class="pill g">🟢 2 llenas</span><span class="pill a">🟡 1 parcial</span><span class="pill r">🔴 3 vacías</span></div>
+</div>
+<div class="tcb">
+<div class="sr">
+  <span class="scode">S00 · Governance</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">Governance</span>
+    <div class="cl"><span class="ci m">✗ agile-conventions.md</span><span class="ci m">✗ definition-of-done.md</span><span class="ci m">✗ definition-of-ready.md</span><span class="ci m">✗ documentation-rules.md</span><span class="ci m">✗ git-conventions.md</span><span class="ci m">✗ microservices-documentation.md</span><span class="ci m">✗ security-policy.md</span><span class="ci m">✗ security-rules.md</span></div>
+    <p class="scom">Gobernanza sin adaptar. agile-conventions.md idéntico al template del framework.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S01 · Context</span>
+  <span class="sico">🟡</span>
+  <div class="sdet">
+    <span class="stit">Context</span>
+    <div class="cl"><span class="ci d">✓ overview.md</span><span class="ci w">⚠ scope.md</span><span class="ci w">⚠ glossary.md</span></div>
+    <p class="scom">overview.md real y detallado (7262 chars, sin marcadores). scope.md tiene 1 marcador de plantilla residual. Context iniciado pero incompleto.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S02 · Domain</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Domain</span>
+    <div class="cl"><span class="ci d">✓ domain-map.md</span><span class="ci d">✓ domain-events.md</span><span class="ci d">✓ entities-and-rules.md</span></div>
+    <p class="scom">domain-map elaborado (16005 chars, sin marcadores) con bounded contexts reales del dominio de Property Management. La sección más fuerte del equipo.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S03 · Product</span>
+  <span class="sico">🟢</span>
+  <div class="sdet">
+    <span class="stit">Product</span>
+    <div class="cl"><span class="ci d">✓ vision.md</span><span class="ci d">✓ problem-framing.md</span></div>
+    <p class="scom">Vision (4924 chars) y problem-framing completados con contenido real del sistema PMS.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S06 · Data</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">Data</span>
+    <div class="cl"><span class="ci m">✗ models.md</span></div>
+    <p class="scom">'What to fill in here' confirmado — models.md es la plantilla del framework sin adaptar. Sin esquemas por servicio propios.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S12 · UX-UI</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">UX-UI</span>
+    <div class="cl"><span class="ci m">✗ design-system.md</span><span class="ci m">✗ navigation-map.md</span></div>
+    <p class="scom">Plantillas sin adaptar. design-system con <code>#[hex]</code> y navigation-map vacío.</p>
+  </div>
+</div>
+</div></div>
+<div class="tc">
+<div class="tch">
+  <div class="ttb"><span class="tcn">Barber SaaS</span><span class="tcr">code-corhuila / barber-saas-docs</span></div>
+  <div class="mems"><span class="mtag">@Pipecerquera</span></div>
+  <div class="pills"><span class="pill a">🟡 1 parcial</span><span class="pill r">🔴 5 vacías</span></div>
+</div>
+<div class="tcb">
+<div class="sr">
+  <span class="scode">S00 · Governance</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">Governance</span>
+    <div class="cl"><span class="ci m">✗ agile-conventions.md</span><span class="ci m">✗ definition-of-done.md</span><span class="ci m">✗ definition-of-ready.md</span><span class="ci m">✗ documentation-rules.md</span><span class="ci m">✗ git-conventions.md</span><span class="ci m">✗ microservices-documentation.md</span><span class="ci m">✗ security-policy.md</span><span class="ci m">✗ security-rules.md</span></div>
+    <p class="scom">Gobernanza sin adaptar. agile-conventions idéntico al template.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S01 · Context</span>
+  <span class="sico">🟡</span>
+  <div class="sdet">
+    <span class="stit">Context</span>
+    <div class="cl"><span class="ci w">⚠ overview_en.md</span><span class="ci d">✓ scope.md</span><span class="ci w">⚠ Glossary_Luxury_Barber_EN.md</span></div>
+    <p class="scom">Contenido real del sistema ('BarberSaaS', SaaS multitenant para barberías colombianas, 5123 chars). Sin embargo, los archivos usan nombres no estándar (<code>overview_en.md</code>, <code>Glossary_Luxury_Barber_EN.md</code>) — el framework espera <code>overview.md</code> y <code>glossary.md</code>.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S02 · Domain</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">Domain</span>
+    <div class="cl"><span class="ci m">✗ domain-map.md</span><span class="ci m">✗ domain-events.md</span><span class="ci m">✗ entities-and-rules.md</span></div>
+    <p class="scom">'What to fill in here' confirmado en domain-map.md (len=7548 = scaffold). Domain sin bounded contexts propios — la sección más crítica sin iniciar.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S03 · Product</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">Product</span>
+    <div class="cl"><span class="ci m">✗ vision.md</span><span class="ci m">✗ problem-framing.md</span></div>
+    <p class="scom">vision.md con 4 marcadores template (Geoffrey Moore sin completar: <code>[target customer]</code>, <code>[product name]</code> intactos). Sin product definition.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S06 · Data</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">Data</span>
+    <div class="cl"><span class="ci m">✗ models.md</span></div>
+    <p class="scom">Plantilla del framework sin modificar. Sin modelo de datos.</p>
+  </div>
+</div>
+<div class="sr">
+  <span class="scode">S12 · UX-UI</span>
+  <span class="sico">🔴</span>
+  <div class="sdet">
+    <span class="stit">UX-UI</span>
+    <div class="cl"><span class="ci m">✗ design-system.md</span><span class="ci m">✗ navigation-map.md</span></div>
+    <p class="scom">Plantillas sin adaptar.</p>
+  </div>
+</div>
+</div></div>
+</div>
+</div>
+<div class="pf2">corhuila-project-tracker v2 · distributed-systems-2026-b/team-2-2026-b · s00s01s02s03s06s12 · 2026-08-31</div>
