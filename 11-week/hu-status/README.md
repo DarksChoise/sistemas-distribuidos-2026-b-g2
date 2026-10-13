@@ -56,6 +56,7 @@
 - [x] No secrets; config via environment variables
 
 ## 6. Evidence links
+- MVP 2 evidence (15 screenshots, acceptance battery 64/64 and its log): https://github.com/DarksChoise/sistemas-distribuidos-2026-b-g2/tree/main/11-week/02-session/mvp2-evidence
 - Releases v2.0.0 (one per repository), e.g. https://github.com/code-corhuila/qone-infra/releases/tag/v2.0.0
 - Promotion to qa (one pull request per repository), e.g. https://github.com/code-corhuila/qone-catalog-api/pull/11
 - Release pull requests to main, e.g. https://github.com/code-corhuila/qone-catalog-api/pull/12

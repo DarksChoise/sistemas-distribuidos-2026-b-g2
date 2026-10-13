@@ -1,0 +1,76 @@
+== gateway and health
+PASS  identity health through the gateway
+PASS  billing health through the gateway
+PASS  catalog health through the gateway
+PASS  enrollment health through the gateway
+PASS  advisor health through the gateway
+PASS  sagas health through the gateway
+PASS  unknown route is 404 with the envelope and the trace id
+PASS  a protected route without token is 401 with the envelope
+== HU-AUT-001 identity
+PASS  login of laura
+PASS  login of santiago
+PASS  login of carlos
+PASS  login of admin
+PASS  wrong password is one neutral 401
+PASS  registration 201, same key 200 with the same account
+PASS  a taken e-mail is 422
+PASS  users/me answers the signed-in person
+== HU-CAT catalog
+PASS  14 subjects in the pensum
+PASS  ISW-604 has groups 1..3 with 27, 30 and 0 seats
+PASS  ISW-602 group 1 starts with 30 seats
+== HU-ENR-001 record and pensum
+PASS  Laura's pensum: 14 subjects, 4 passed
+PASS  Laura's schedule has her 4 seeded subjects
+== HU-BIL-001 billing
+PASS  Santiago's invoice is ISSUED
+== HU-ENR-002 saga gates
+PASS  unpaid tuition: COMPENSATED with TUITION_UNPAID
+PASS  a full group: COMPENSATED with NO_SEATS
+PASS  a schedule overlap: COMPENSATED with SCHEDULE_CONFLICT
+PASS  a student cannot enroll someone else (403)
+PASS  Laura enrolls in ISW-602 g1: COMPLETED
+PASS  the same key answers 200 with the same saga
+PASS  catalog seats 30 -> 29
+PASS  enrolling again is DUPLICATE
+PASS  the saga's correlation id is in the 4 services' logs
+== events through RabbitMQ (worker relay, consumers)
+PASS  enrollment projection follows catalog (29)
+PASS  advisor projection follows catalog (29)
+PASS  advisor student view gets Laura's ISW-602
+PASS  Santiago pays: PAID
+PASS  paying again returns the same paid invoice
+PASS  enrollment tuition projection becomes PAID
+PASS  advisor tuition projection becomes PAID
+PASS  every outbox is relayed
+== HU-CER-001 certificates
+PASS  payment certificate issued after paying
+PASS  the PDF downloads with its verification code
+PASS  another student's PDF is 404
+PASS  public verification without a token
+== HU-ADV-002/003 advisor (real model)
+PASS  conversation created
+PASS  grounded audit answer, not degraded
+PASS  another student's data is refused, no plan
+PASS  a plan for ISW-703 is PROPOSED
+PASS  the plan's clock is moved 11 minutes back
+PASS  the worker expires the plan within its 30 s period
+PASS  an expired plan cannot be confirmed (422)
+PASS  dismiss: DISMISSED
+PASS  confirm: 202 and EXECUTED
+PASS  the saga ran with origin AGENT and the plan's confirmation
+PASS  ISW-703 seats went down by one
+PASS  the enrollment row records AGENT with its confirmation
+PASS  another student's conversation is 404
+PASS  a professor gets an answer without a plan
+== worker and portals
+PASS  worker health lists relay, expiry and cache prune, all ok
+PASS  shell portal serves /
+PASS  identity portal serves /remoteEntry.js
+PASS  catalog portal serves /remoteEntry.js
+PASS  enrollment portal serves /remoteEntry.js
+PASS  billing portal serves /remoteEntry.js
+PASS  advisor portal serves /remoteEntry.js
+
+64 PASS / 0 FAIL of 64
