@@ -5,7 +5,7 @@
 - GITHUB_USER: DarksChoise
 - TEAM: Quorum One
 - DOCS_REPO: https://github.com/code-corhuila/qone-docs
-- REFLECTION_DOC:
+- REFLECTION_DOC: https://docs.google.com/document/d/1xRNkrLLanlbvnHqU2Tjjw2t5Nr_sSPenjEHXCCTt5fY/edit
 - JOURNEY: A student enrolls in a section (enroll-student saga: gateway, workflow, billing, enrollment, catalog, worker, RabbitMQ)
 <!-- CONFIG-END -->
 
