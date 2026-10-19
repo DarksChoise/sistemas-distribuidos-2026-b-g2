@@ -6,7 +6,7 @@
 - TEAM: Quorum One
 - DOCS_REPO: https://github.com/code-corhuila/qone-docs
 - REFLECTION_DOC:
-- JOURNEY:
+- JOURNEY: A student enrolls in a section (enroll-student saga: gateway, workflow, billing, enrollment, catalog, worker, RabbitMQ)
 <!-- CONFIG-END -->
 
 Project: **Qampus**, the university platform of team Quorum One (five domains: identity, catalog,
