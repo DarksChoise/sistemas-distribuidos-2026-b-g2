@@ -1,0 +1,64 @@
+# Burn-rate alerts for SLO 1 of CP6: availability of the enroll-student saga, 99.5 % over 30 days.
+# Error budget = 0.005. Error ratio = sagas with outcome="error" / all sagas (workflow_saga_requests_total, CP4).
+# Loaded by the Prometheus of qone-infra (observability/prometheus.yml, rule_files).
+groups:
+  - name: qampus-enroll-student-slo
+    rules:
+      - record: qampus:saga_error_ratio:rate5m
+        expr: |
+          sum(rate(workflow_saga_requests_total{saga="enroll-student", outcome="error"}[5m]))
+          /
+          sum(rate(workflow_saga_requests_total{saga="enroll-student"}[5m]))
+      - record: qampus:saga_error_ratio:rate30m
+        expr: |
+          sum(rate(workflow_saga_requests_total{saga="enroll-student", outcome="error"}[30m]))
+          /
+          sum(rate(workflow_saga_requests_total{saga="enroll-student"}[30m]))
+      - record: qampus:saga_error_ratio:rate1h
+        expr: |
+          sum(rate(workflow_saga_requests_total{saga="enroll-student", outcome="error"}[1h]))
+          /
+          sum(rate(workflow_saga_requests_total{saga="enroll-student"}[1h]))
+      - record: qampus:saga_error_ratio:rate6h
+        expr: |
+          sum(rate(workflow_saga_requests_total{saga="enroll-student", outcome="error"}[6h]))
+          /
+          sum(rate(workflow_saga_requests_total{saga="enroll-student"}[6h]))
+      - record: qampus:saga_requests:increase1h
+        expr: sum(increase(workflow_saga_requests_total{saga="enroll-student"}[1h]))
+
+      # Fast burn: 14.4 x budget over 1 h, confirmed over 5 min. Spends 2 % of the 30-day budget per hour.
+      - alert: EnrollStudentSagaFastBurn
+        expr: |
+          qampus:saga_error_ratio:rate1h > (14.4 * 0.005)
+          and
+          qampus:saga_error_ratio:rate5m > (14.4 * 0.005)
+          and
+          qampus:saga_requests:increase1h > 20
+        for: 2m
+        labels:
+          severity: page
+          team: quorum-one
+          service: qone-workflow
+          slo: enroll-student-availability
+        annotations:
+          summary: "enroll-student saga is failing {{ $value | humanizePercentage }} of requests (fast burn, 14.4x)"
+          description: "More than 7.2 % of POST /api/v1/sagas/enroll-student end in outcome=error over 1 h and 5 min. At this rate the 30-day budget of 24 failed sagas is gone in about 2 days."
+          runbook_url: "https://github.com/DarksChoise/sistemas-distribuidos-2026-b-g2/blob/main/11-week/workshop/07-runbook.md"
+
+      # Slow burn: 6 x budget over 6 h, confirmed over 30 min. Spends 5 % of the 30-day budget in 6 h.
+      - alert: EnrollStudentSagaSlowBurn
+        expr: |
+          qampus:saga_error_ratio:rate6h > (6 * 0.005)
+          and
+          qampus:saga_error_ratio:rate30m > (6 * 0.005)
+        for: 15m
+        labels:
+          severity: ticket
+          team: quorum-one
+          service: qone-workflow
+          slo: enroll-student-availability
+        annotations:
+          summary: "enroll-student saga error ratio above 3 % for 6 h (slow burn, 6x)"
+          description: "A steady 3 % of sagas end in outcome=error. Look for one participant (billing, enrollment or catalog) timing out in the logs by trace_id."
+          runbook_url: "https://github.com/DarksChoise/sistemas-distribuidos-2026-b-g2/blob/main/11-week/workshop/07-runbook.md"
