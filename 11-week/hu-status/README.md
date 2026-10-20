@@ -29,6 +29,7 @@
 | HU-ADV-003 | Enroll by chat, with explicit confirmation | done | https://github.com/code-corhuila/qone-advisor-portal/releases/tag/v2.0.0 |
 | HU-WEB-002 | Professor view | done | https://github.com/code-corhuila/qone-enrollment-portal/pull/14 |
 | HU-PLT-002 | Observability workshop, delivery 1: journey and trace map, log contract, instrumentation with test, metric catalog | done | https://github.com/DarksChoise/sistemas-distribuidos-2026-b-g2/tree/main/11-week/workshop |
+| HU-PLT-002 | Observability workshop, delivery 2: SLOs and error budget, burn-rate alerts, runbook, incident drill and postmortem | done | https://github.com/DarksChoise/sistemas-distribuidos-2026-b-g2/tree/main/11-week/workshop |
 
 ## 2. My individual contribution
 - Built the backend of Cut 2 test-first and hexagonal (Python 3.12, FastAPI, PostgreSQL with Flyway): `qone-identity-db/api` (RS256 tokens), `qone-billing-db/api`, `qone-catalog-db/api` (seat reservations under a row lock), `qone-enrollment-db/api` (record, pensum, certificates with PDF, projections), `qone-workflow` (the orchestrated `enroll-student` saga with compensation, state in Redis), `qone-worker` (outbox relay to RabbitMQ, plan expiry, LLM cache prune), `qone-advisor-db/api` (LangChain agent with tools closed over the caller, circuit breaker, plans confirmed into the saga with the advisor's token) and `qone-api-gateway` (NGINX).
@@ -43,6 +44,11 @@
   `qone-billing-api`, two Prometheus metrics, a passing test) [3295c94](https://github.com/DarksChoise/sistemas-distribuidos-2026-b-g2/commit/3295c94), [5efe0b7](https://github.com/DarksChoise/sistemas-distribuidos-2026-b-g2/commit/5efe0b7), [cc5f3fe](https://github.com/DarksChoise/sistemas-distribuidos-2026-b-g2/commit/cc5f3fe);
   CP4 golden signals and metric catalog [f523b4d](https://github.com/DarksChoise/sistemas-distribuidos-2026-b-g2/commit/f523b4d).
 
+- Week 11 workshop, delivery 2 (Oct 19-20, two work blocks), same journey: CP6 three SLOs of the saga with their
+  error budget and policy [7014aa9](https://github.com/DarksChoise/sistemas-distribuidos-2026-b-g2/commit/7014aa9); CP7 fast and slow burn-rate rules checked with `promtool` and their
+  policy [90fd48f](https://github.com/DarksChoise/sistemas-distribuidos-2026-b-g2/commit/90fd48f); CP8 runbook of the fast-burn alert [d8e74d9](https://github.com/DarksChoise/sistemas-distribuidos-2026-b-g2/commit/d8e74d9); CP9 incident drill on the
+  `check-tuition` hop and blameless postmortem with three action items [f0d990f](https://github.com/DarksChoise/sistemas-distribuidos-2026-b-g2/commit/f0d990f).
+
 ## 3. Blockers and risks
 - The v2 documentation stack (qone-docs #49) needs the teacher's approval again: the earlier approval was dismissed by a later push. Until it merges, the code repositories cite their contracts from a `docs/` branch.
 - The automated review cites a newer version of the course norm (Annex J: one shared PostgreSQL instance per engine in a `<abbr>-infra-postgres` repository, one application user per domain, MongoDB, a backend in at least two languages). Our topology follows the earlier version (one instance per domain); adopting it is a structural change to assess.
@@ -54,7 +60,7 @@
 - Assess Annex J and the other new rules of the norm and plan the changes for Cut 3.
 - Close the real gaps raised by the review: reservation expiry, one database user per domain, per-domain rate-limit zones in the gateway.
 
-- Workshop delivery 2 (until Oct 20): SLOs and error budget, burn-rate alerts, runbook, incident drill with postmortem.
+- Turn the postmortem action items of the workshop into stories: a latency burn-rate alert, a 3 s limit on the call to billing, Prometheus scraping the services.
 
 ## 5. Compliance self-check
 - [x] Conventional Commits - `type(scope): summary`
