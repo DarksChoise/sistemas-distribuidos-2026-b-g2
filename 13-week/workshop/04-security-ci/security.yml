@@ -1,0 +1,68 @@
+# Security gates proposed for the pipeline of qone-advisor-api (boundary TB6: qone-advisor-api -> OpenAI).
+# It lives in the fork as a proposal: it checks out the service from code-corhuila and runs three gates.
+# A red step blocks the Pull Request and the security story stays open.
+name: security
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SERVICE_REPO: code-corhuila/qone-advisor-api
+  SERVICE_REF: main
+
+jobs:
+  secret-scan:
+    name: Secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SERVICE_REPO }}
+          ref: ${{ env.SERVICE_REF }}
+          fetch-depth: 0
+      - name: No OPENAI_API_KEY, SERVICE_TOKEN or private key in the history
+        run: docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.21.2 detect --source /repo --redact --verbose
+
+  dependency-audit:
+    name: Dependency audit (pip-audit)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SERVICE_REPO }}
+          ref: ${{ env.SERVICE_REF }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]" pip-audit==2.7.3
+      - name: No known vulnerability in fastapi, langchain-openai, PyJWT, httpx, psycopg
+        run: pip-audit --skip-editable --strict
+
+  authorization-tests:
+    name: Negative authorization tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: workshop
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SERVICE_REPO }}
+          ref: ${{ env.SERVICE_REF }}
+          path: service
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e "./service[dev]"
+      - name: Nothing crosses to OpenAI without an owner; no tool outside the role runs
+        working-directory: service
+        run: |
+          cp ../workshop/13-week/workshop/04-security-ci/test_advisor_negative_authz.py tests/
+          python -m pytest tests/test_advisor_negative_authz.py -v
