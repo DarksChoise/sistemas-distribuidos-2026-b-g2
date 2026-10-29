@@ -8,8 +8,9 @@
 - BOUNDARY: qone-advisor-api -> OpenAI Chat Completions API (the AI advisor calling the LLM provider)
 - CLAIM_ISSUE: https://github.com/code-corhuila/qone-docs/issues/51
 - REFLECTION_DOC: https://docs.google.com/document/d/1G6fSZGhlKsXHe-54xqXnRHISlr_feH0EjTqZKILvTrI/edit
-- LIBRARY_BOOK:
-- LIBRARY_RECORD_TIME:
+- LIBRARY_BOOK: Tanenbaum, Andrew S. and Van Steen, Maarten. Sistemas distribuidos: principios y paradigmas, 2nd edition, Pearson Educacion, 2008, call number 005.4476 T15d Ej. 2
+- LIBRARY_RECORD_TIME: 2026-10-28 19:34
+- STORIES: https://github.com/code-corhuila/qone-docs/issues/53, https://github.com/code-corhuila/qone-docs/issues/54, https://github.com/code-corhuila/qone-docs/issues/55
 <!-- CONFIG-END -->
 
 Project: **Qampus**, the university platform of team Quorum One (identity, catalog, enrollment,
@@ -22,6 +23,6 @@ sends the student's question, the conversation history and the results of its to
 | Checkpoint | Where |
 |---|---|
 | CP1 Attack surface and trust boundaries | [01-attack-surface.md](01-attack-surface.md) |
-| CP2 STRIDE on my boundary | Pull Request in `qone-docs`: `05-architecture/security/stride-DarksChoise.md` |
+| CP2 STRIDE on my boundary | [qone-docs PR #52](https://github.com/code-corhuila/qone-docs/pull/52): `05-architecture/security/stride-DarksChoise.md` |
 | CP3 Security backlog | three `[security]` issues in `qone-docs` (STORIES above) |
 | CP4 Security gates and negative test | [04-security-ci/](04-security-ci/) |
