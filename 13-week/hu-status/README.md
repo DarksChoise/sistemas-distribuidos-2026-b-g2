@@ -30,6 +30,12 @@
   Pearson Educacion, 2008, call number 005.4476 T15d Ej. 2; chapter 9, p. 378-380, 396-397, 413-414, 428.
   It marks six [B] items of the STRIDE table and the acceptance criteria of #53.
 
+- Week 13 workshop, final delivery (Oct 30), one push per checkpoint:
+  CP6 review answered on PR #52: new I row for AD-01 `/health` exposing the model, the model evaluation moved to a release check ([9c75e20](https://github.com/code-corhuila/qone-docs/commit/9c75e20), [comment](https://github.com/code-corhuila/qone-docs/pull/52#issuecomment-6538791022));
+  CP7 issues #53, #54 and #55 refined (testable criteria, PR gate vs release check) and STORIES updated [9737987](https://github.com/DarksChoise/sistemas-distribuidos-2026-b-g2/commit/9737987);
+  CP8 negative test run against `qone-advisor-api` (3 passed) and `security.yml` checked with actionlint v1.7.12, no errors [e610122](https://github.com/DarksChoise/sistemas-distribuidos-2026-b-g2/commit/e610122);
+  CP9 implementation plan in the reflection document and this close.
+
 ### Peer review (self-review: I am the only member of Quorum One)
 Reviewed my STRIDE table of PR #52 against the ParkFlow example of the guide:
 - **A threat I missed.** ParkFlow has an I row for error bodies that leak internals. My table has no row for
@@ -41,7 +47,7 @@ Reviewed my STRIDE table of PR #52 against the ParkFlow example of the guide:
   against `gpt-4o-mini`. In a pull request that needs `OPENAI_API_KEY` as a CI secret, costs money on every
   push and is not deterministic. It stays as a manual release check; the PR gate is criteria 1 and 2,
   which run with the `ScriptedAgent` and no network.
-- Both changes go into the table and the issues in CP6.
+- Both changes were applied in CP6 (commit 9c75e20 of PR #52).
 
 ## 3. Blockers and risks
 - I am the only member of the team: no teammate review on PR #52; the self-review above replaces it.
@@ -49,8 +55,6 @@ Reviewed my STRIDE table of PR #52 against the ParkFlow example of the guide:
 - The security gates live in the fork as a proposal; they are not yet in the CI of `qone-advisor-api`.
 
 ## 4. Plan for next week
-- CP6: answer the review on PR #52 (add the AD-01 row, move the eval to the release checklist).
-- CP7: refine the three issues; CP8: run the negative test again, paste the output and validate `security.yml`.
 - Implement #53 first (P0): a per-student quota on AD-05 and `max_tokens` on `ChatOpenAI`.
 
 ## 5. Compliance self-check
