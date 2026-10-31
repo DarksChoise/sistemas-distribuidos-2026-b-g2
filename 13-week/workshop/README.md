@@ -10,7 +10,7 @@
 - REFLECTION_DOC: https://docs.google.com/document/d/1G6fSZGhlKsXHe-54xqXnRHISlr_feH0EjTqZKILvTrI/edit
 - LIBRARY_BOOK: Tanenbaum, Andrew S. and Van Steen, Maarten. Sistemas distribuidos: principios y paradigmas, 2nd edition, Pearson Educacion, 2008, call number 005.4476 T15d Ej. 2
 - LIBRARY_RECORD_TIME: 2026-10-28 19:34
-- STORIES: https://github.com/code-corhuila/qone-docs/issues/53, https://github.com/code-corhuila/qone-docs/issues/54, https://github.com/code-corhuila/qone-docs/issues/55
+- STORIES: https://github.com/code-corhuila/qone-docs/issues/53 (D, risk 9, P0), https://github.com/code-corhuila/qone-docs/issues/54 (T, risk 6, P1), https://github.com/code-corhuila/qone-docs/issues/55 (I, risk 6, P1)
 <!-- CONFIG-END -->
 
 Project: **Qampus**, the university platform of team Quorum One (identity, catalog, enrollment,
