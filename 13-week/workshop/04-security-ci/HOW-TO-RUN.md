@@ -29,3 +29,29 @@ Remove-Item tests\test_advisor_negative_authz.py
 
 [security.yml](security.yml) runs the same file in the job `authorization-tests`, next to `gitleaks`
 and `pip-audit`, on every `pull_request`.
+
+## Real run (CP8, 2026-10-30, Windows 10, Python 3.12.10)
+
+Against `qone-advisor-api` at `main` (`913e9e6`, release 2.0.0), with the steps above:
+
+```text
+PS> python -m pytest tests\test_advisor_negative_authz.py -v -o addopts=""
+platform win32 -- Python 3.12.10, pytest-8.4.2, pluggy-1.6.0
+rootdir: C:\Users\Usuario\Desktop\Sistemas Distribuidos\qampus\qone-advisor-api
+configfile: pyproject.toml
+collected 3 items
+
+tests/test_advisor_negative_authz.py::test_a_service_token_cannot_open_a_conversation_and_nothing_reaches_openai PASSED [ 33%]
+tests/test_advisor_negative_authz.py::test_a_student_cannot_write_in_another_students_conversation_and_nothing_reaches_openai PASSED [ 66%]
+tests/test_advisor_negative_authz.py::test_a_professor_conversation_never_runs_propose_enrollment_even_if_the_model_asks PASSED [100%]
+
+============================== 3 passed in 0.94s ==============================
+```
+
+`-o addopts=""` only overrides the `-q` of the service's `pyproject.toml`, so the test names are printed.
+
+## Validation of security.yml
+
+Checked with actionlint v1.7.12 (the official playground, https://rhysd.github.io/actionlint/): **"No error
+was detected."** Three jobs: `secret-scan`, `dependency-audit`, `authorization-tests`; `env.SERVICE_REPO`
+and `env.SERVICE_REF` are valid in `with:` of a step.
