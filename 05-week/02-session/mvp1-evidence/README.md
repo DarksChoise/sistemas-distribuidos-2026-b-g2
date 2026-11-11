@@ -16,7 +16,7 @@ session. Team: Quorum One — Juan Diego Andrade Cardozo (`DarksChoise`).
 
 Stack booted with `docker compose up -d` at tag `v1.0.0` on a fresh demo database, captured
 at 1440×900 with Playwright (`qone-docs/12-ux-ui/assets/capture-screens.py`). Demo accounts
-(password `Qampus2026`): Laura Gómez (student, tuition paid), Santiago Rojas (student, unpaid),
+(password: the `DEMO_PASSWORD` of the environment, never written in a document): Laura Gómez (student, tuition paid), Santiago Rojas (student, unpaid),
 Carlos Ramírez (professor), Patricia Mora (admin).
 
 ## Screens
